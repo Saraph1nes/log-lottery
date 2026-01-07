@@ -11,6 +11,8 @@ export const dialogEn = {
     uploadFileTitle: 'Upload File',
     uploadImageTitle: 'Upload Image',
     uploadAudioTitle: 'Upload Audio',
+    selectRiggedWinner: 'Select Rigged Winners',
+    riggedWinnerTip: 'Select up to {max} person(s) as rigged winner(s)',
 }
 
 export const dialogZhCn = {
@@ -26,6 +28,8 @@ export const dialogZhCn = {
     uploadFileTitle: '上传文件',
     uploadImageTitle: '上传图片',
     uploadAudioTitle: '上传音频',
+    selectRiggedWinner: '选择内定人员',
+    riggedWinnerTip: '最多可选择 {max} 人作为内定中奖人',
 }
 
 export const dialog = {

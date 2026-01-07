@@ -1,13 +1,31 @@
 <script setup lang='ts'>
+import type { IPrizeConfig, IRiggedWinner } from '@/types/storeType'
 import { Grip } from 'lucide-vue-next'
+import { ref } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useI18n } from 'vue-i18n'
 import EditSeparateDialog from '@/components/NumberSeparate/EditSeparateDialog.vue'
 import PageHeader from '@/components/PageHeader/index.vue'
+import RiggedWinnerSelector from '@/components/RiggedWinnerSelector/index.vue'
 import { usePrizeConfig } from './usePrizeConfig'
 
 const { addPrize, resetDefault, delAll, delItem, prizeList, currentPrize, selectedPrize, submitData, changePrizePerson, changePrizeStatus, selectPrize, localImageList } = usePrizeConfig()
 const { t } = useI18n()
+
+// 内定人员选择相关
+const riggedSelectorRef = ref<InstanceType<typeof RiggedWinnerSelector>>()
+const currentEditingPrize = ref<IPrizeConfig | null>(null)
+
+function openRiggedSelector(item: IPrizeConfig) {
+    currentEditingPrize.value = item
+    riggedSelectorRef.value?.openDialog()
+}
+
+function handleRiggedWinnersSubmit(winners: IRiggedWinner[]) {
+    if (currentEditingPrize.value) {
+        currentEditingPrize.value.riggedWinners = winners
+    }
+}
 </script>
 
 <template>
@@ -132,6 +150,26 @@ const { t } = useI18n()
         </label>
         <label class="w-full max-w-xs form-control">
           <div class="label">
+            <span class="label-text">{{ t('table.riggedWinner') }}</span>
+          </div>
+          <div class="flex justify-start w-full h-full" @click="openRiggedSelector(item)">
+            <ul
+              v-if="item.riggedWinners && item.riggedWinners.length"
+              class="flex flex-wrap w-full h-full gap-1 p-0 pt-1 m-0 cursor-pointer"
+            >
+              <li
+                v-for="winner in item.riggedWinners"
+                :key="winner.id"
+                class="px-2 py-1 text-xs rounded-full bg-warning/20 text-warning"
+              >
+                {{ winner.name }}
+              </li>
+            </ul>
+            <button v-else class="btn btn-warning btn-xs">{{ t('button.setting') }}</button>
+          </div>
+        </label>
+        <label class="w-full max-w-xs form-control">
+          <div class="label">
             <span class="label-text">{{ t('table.operation') }}</span>
           </div>
           <div class="flex gap-2">
@@ -143,6 +181,12 @@ const { t } = useI18n()
     <EditSeparateDialog
       :total-number="selectedPrize?.count" :separated-number="selectedPrize?.separateCount.countList"
       @submit-data="submitData"
+    />
+    <RiggedWinnerSelector
+      ref="riggedSelectorRef"
+      :max-count="currentEditingPrize?.count || 1"
+      :selected-winners="currentEditingPrize?.riggedWinners || []"
+      @submit-data="handleRiggedWinnersSubmit"
     />
   </div>
 </template>

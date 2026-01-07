@@ -8,6 +8,7 @@ export const tableEn = {
     themeSetting: 'Theme Setting',
     // person configuration
     number: 'Number',
+    uid: 'ID',
     name: 'Name',
     prizeName: 'Name',
     department: 'Department',
@@ -26,6 +27,7 @@ export const tableEn = {
     image: 'Image',
     onceNumber: 'Once Number',
     time: 'Time',
+    riggedWinner: 'Rigged Winner',
     // view setting
     title: 'Main Title',
     columnNumber: 'Column Number',
@@ -60,6 +62,7 @@ export const tableZhCn = {
     themeSetting: '主题设置',
     // person configuration
     number: '编号',
+    uid: '工号',
     name: '姓名',
     prizeName: '名称',
     department: '部门',
@@ -78,6 +81,7 @@ export const tableZhCn = {
     image: '图片',
     onceNumber: '单次抽取个数',
     time: '时间',
+    riggedWinner: '内定人员',
     // view setting
     title: '主标题',
     columnNumber: '列数',

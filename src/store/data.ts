@@ -122,6 +122,7 @@ export const defaultPrizeList = <IPrizeConfig[]>[
         isShow: true,
         isUsed: false,
         frequency: 1,
+        riggedWinners: [],
     },
     {
         id: '002',
@@ -143,6 +144,7 @@ export const defaultPrizeList = <IPrizeConfig[]>[
         isShow: true,
         isUsed: false,
         frequency: 1,
+        riggedWinners: [],
     },
     {
         id: '003',
@@ -164,6 +166,7 @@ export const defaultPrizeList = <IPrizeConfig[]>[
         isShow: true,
         isUsed: false,
         frequency: 1,
+        riggedWinners: [],
     },
     {
         id: '004',
@@ -185,6 +188,7 @@ export const defaultPrizeList = <IPrizeConfig[]>[
         isShow: true,
         isUsed: false,
         frequency: 1,
+        riggedWinners: [],
     },
     {
         id: '005',
@@ -206,6 +210,7 @@ export const defaultPrizeList = <IPrizeConfig[]>[
         isShow: true,
         isUsed: false,
         frequency: 1,
+        riggedWinners: [],
     },
 ]
 export const defaultCurrentPrize = <IPrizeConfig>{
@@ -228,6 +233,7 @@ export const defaultCurrentPrize = <IPrizeConfig>{
     isShow: true,
     isUsed: false,
     frequency: 1,
+    riggedWinners: [],
 }
 export const defaultTemporaryPrize = <IPrizeConfig>{
     id: '',
@@ -249,6 +255,7 @@ export const defaultTemporaryPrize = <IPrizeConfig>{
     isShow: false,
     isUsed: false,
     frequency: 1,
+    riggedWinners: [],
 }
 
 export const defaultImageList = [

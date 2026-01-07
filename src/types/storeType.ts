@@ -20,6 +20,11 @@ export interface Separate {
     count: number
     isUsedCount: number
 }
+export interface IRiggedWinner {
+    id: number
+    uid: string
+    name: string
+}
 export interface IPrizeConfig {
     id: number | string
     name: string
@@ -40,6 +45,7 @@ export interface IPrizeConfig {
     isShow: boolean
     isUsed: boolean
     frequency: number
+    riggedWinners?: IRiggedWinner[]
 }
 export interface IMusic {
     id: string

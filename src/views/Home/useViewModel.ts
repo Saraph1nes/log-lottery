@@ -380,8 +380,65 @@ export function useViewModel() {
             }
         }
         luckyCount.value = leftover < luckyCount.value ? leftover : luckyCount.value
-        // 重构抽奖函数
-        luckyTargets.value = getRandomElements(personPool.value, luckyCount.value)
+
+        // 内定用户优先中奖逻辑
+        const riggedWinners = currentPrize.value.riggedWinners || []
+        const validRiggedWinners: IPersonConfig[] = []
+
+        // 1. 检查内定用户是否在参与者名单中
+        if (riggedWinners.length > 0) {
+            for (const rigged of riggedWinners) {
+                const person = personPool.value.find(p => p.id === rigged.id)
+                if (person) {
+                    validRiggedWinners.push(person)
+                }
+            }
+        }
+
+        // 2. 计算需要随机抽取的人数
+        const riggedCount = Math.min(validRiggedWinners.length, luckyCount.value)
+        const randomCount = luckyCount.value - riggedCount
+
+        // 3. 获取所有奖项的内定用户ID列表（用于过滤）
+        const allRiggedIds = new Set<number>()
+        const prizeList = prizeConfig.prizeConfig.prizeList
+        for (const prize of prizeList) {
+            if (prize.riggedWinners) {
+                for (const rw of prize.riggedWinners) {
+                    allRiggedIds.add(rw.id)
+                }
+            }
+        }
+
+        // 4. 构建中奖名单
+        luckyTargets.value = []
+
+        // 4.1 先添加有效的内定用户
+        for (let i = 0; i < riggedCount; i++) {
+            luckyTargets.value.push(validRiggedWinners[i])
+        }
+
+        // 4.2 如果还需要随机抽取
+        if (randomCount > 0) {
+            // 过滤掉已内定的用户和已选中的内定用户
+            const filteredPool = personPool.value.filter((person) => {
+                // 排除所有奖项的内定用户
+                if (allRiggedIds.has(person.id)) {
+                    return false
+                }
+                // 排除已经加入中奖名单的人
+                if (luckyTargets.value.some(winner => winner.id === person.id)) {
+                    return false
+                }
+                return true
+            })
+
+            // 从过滤后的池中随机抽取
+            const randomWinners = getRandomElements(filteredPool, randomCount)
+            luckyTargets.value.push(...randomWinners)
+        }
+
+        // 从参与者池中移除中奖者
         luckyTargets.value.forEach((item) => {
             const index = personPool.value.findIndex(person => person.id === item.id)
             if (index > -1) {
@@ -506,6 +563,15 @@ export function useViewModel() {
             currentPrize.value.isUsed = true
             currentPrize.value.isUsedCount = currentPrize.value.count
         }
+
+        // 从内定列表中移除已中奖的内定用户
+        if (currentPrize.value.riggedWinners && currentPrize.value.riggedWinners.length > 0) {
+            const winnerIds = new Set(luckyTargets.value.map(w => w.id))
+            currentPrize.value.riggedWinners = currentPrize.value.riggedWinners.filter(
+                rw => !winnerIds.has(rw.id),
+            )
+        }
+
         personConfig.addAlreadyPersonList(luckyTargets.value, currentPrize.value)
         prizeConfig.updatePrizeConfig(currentPrize.value)
         await enterLottery()

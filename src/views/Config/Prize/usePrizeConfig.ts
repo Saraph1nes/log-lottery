@@ -79,7 +79,10 @@ export function usePrizeConfig() {
     }
 
     function delItem(item: IPrizeConfig) {
-        prizeConfig.deletePrizeConfig(item.id)
+        const index = prizeList.value.findIndex(p => p.id === item.id)
+        if (index > -1) {
+            prizeList.value.splice(index, 1)
+        }
         toast.success(i18n.global.t('error.deleteSuccess'))
     }
     function addPrize() {
@@ -103,6 +106,7 @@ export function usePrizeConfig() {
             isUsed: false,
             isShow: true,
             frequency: 1,
+            riggedWinners: [],
         }
         prizeList.value.push(defaultPrizeCOnfig)
         toast.success(i18n.global.t('error.success'))
