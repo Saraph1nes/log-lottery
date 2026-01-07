@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { onMounted, ref, toRefs } from 'vue'
+import { onMounted, ref } from 'vue'
 import i18n from '@/locales/i18n'
 
 interface Props {
@@ -21,13 +21,21 @@ const visible = defineModel('visible', {
 })
 
 const dialogRef = ref <HTMLDialogElement | null> (null)
-function defaultCancelFunc() {
-    dialogRef.value?.close()
-}
 
 function showDialog() {
     dialogRef.value?.showModal()
 }
+
+function handleCancel() {
+    props.cancelFunc?.()
+    dialogRef.value?.close()
+}
+
+function handleSubmit() {
+    props.submitFunc?.()
+    dialogRef.value?.close()
+}
+
 defineExpose({
     showDialog,
     closed,
@@ -38,31 +46,29 @@ onMounted(() => {
         visible.value = false
     })
 })
-const { title, desc, cancelText, submitText, submitFunc, cancelFunc = defaultCancelFunc } = toRefs(props)
 </script>
 
 <template>
   <dialog id="my_modal" ref="dialogRef" class="border-none modal">
     <div class="modal-box">
-      <h3 v-if="title" class="text-lg font-bold">
-        {{ title }}
+      <h3 v-if="props.title" class="text-lg font-bold">
+        {{ props.title }}
       </h3>
-      <p v-if="desc" class="py-4">
-        {{ desc }}
+      <p v-if="props.desc" class="py-4">
+        {{ props.desc }}
       </p>
       <div>
         <slot name="content" />
       </div>
       <div class="modal-action">
-        <form method="dialog" class="flex gap-3">
-          <!-- if there is a button in form, it will close the modal -->
-          <button class="btn" @click="cancelFunc">
-            {{ cancelText }}
+        <div class="flex gap-3">
+          <button class="btn" type="button" @click="handleCancel">
+            {{ props.cancelText }}
           </button>
-          <button class="btn" @click="submitFunc">
-            {{ submitText }}
+          <button class="btn" type="button" @click="handleSubmit">
+            {{ props.submitText }}
           </button>
-        </form>
+        </div>
       </div>
     </div>
   </dialog>

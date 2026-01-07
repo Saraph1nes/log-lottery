@@ -120,7 +120,7 @@ export function useViewModel() {
 
             const detail = document.createElement('div')
             detail.className = 'card-detail'
-            detail.innerHTML = `${tableData.value[i].department}<br/>${tableData.value[i].identity}`
+            detail.innerHTML = ''
             if (isShowAvatar.value)
                 detail.style.display = 'none'
             element.appendChild(detail)

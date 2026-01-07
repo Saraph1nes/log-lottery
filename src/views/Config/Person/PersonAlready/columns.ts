@@ -25,14 +25,6 @@ export function tableColumns(props: IColumnsProps) {
             },
         },
         {
-            label: i18n.global.t('data.department'),
-            props: 'department',
-        },
-        {
-            label: i18n.global.t('data.identity'),
-            props: 'identity',
-        },
-        {
             label: i18n.global.t('data.prizeName'),
             props: 'prizeName',
             sort: true,

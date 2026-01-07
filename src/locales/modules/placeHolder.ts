@@ -6,7 +6,7 @@ export const placeHolderEn = {
     timedStop: 'will stop at a scheduled time after starting',
     imageName: 'Image Name',
     personName: 'Please enter name',
-    searchPerson: 'Search by name, ID or department',
+    searchPerson: 'Search by name or ID',
 }
 
 export const placeHolderZhCn = {
@@ -17,7 +17,7 @@ export const placeHolderZhCn = {
     timedStop: '开始后定时抽取',
     imageName: '图片名称',
     personName: '请填写姓名',
-    searchPerson: '按姓名、工号或部门搜索',
+    searchPerson: '按姓名或工号搜索',
 }
 
 export const placeHolder = {

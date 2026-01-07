@@ -36,8 +36,7 @@ const filteredPersonList = computed(() => {
     const keyword = searchKeyword.value.toLowerCase()
     return allPersonList.value.filter((person: IPersonConfig) =>
         person.name.toLowerCase().includes(keyword)
-        || person.uid.toLowerCase().includes(keyword)
-        || person.department.toLowerCase().includes(keyword),
+        || person.uid.toLowerCase().includes(keyword),
     )
 })
 
@@ -141,7 +140,6 @@ defineExpose({
               <th class="w-12" />
               <th>{{ t('table.uid') }}</th>
               <th>{{ t('table.name') }}</th>
-              <th>{{ t('table.department') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -163,7 +161,6 @@ defineExpose({
               </td>
               <td>{{ person.uid }}</td>
               <td>{{ person.name }}</td>
-              <td>{{ person.department }}</td>
             </tr>
           </tbody>
         </table>

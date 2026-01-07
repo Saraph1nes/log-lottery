@@ -137,6 +137,18 @@ export const usePrizeConfig = defineStore('prize', {
                 riggedWinners: [],
             } as IPrizeConfig
         },
+        // 重置奖品使用状态（不删除奖品配置，只重置使用计数）
+        resetPrizeUsage() {
+            this.prizeConfig.prizeList.forEach((prize) => {
+                prize.isUsedCount = 0
+                prize.isUsed = false
+            })
+            // 重置当前奖项为第一个未使用的奖项
+            if (this.prizeConfig.prizeList.length > 0) {
+                this.prizeConfig.currentPrize = this.prizeConfig.prizeList[0]
+            }
+            this.resetTemporaryPrize()
+        },
         // 重置所有配置
         resetDefault() {
             this.prizeConfig = {
